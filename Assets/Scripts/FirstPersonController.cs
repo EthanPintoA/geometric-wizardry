@@ -12,10 +12,29 @@ public class FirstPersonController : MonoBehaviour
     private float verticalRotation = 0.0f;
     private float horizontalRotation = 0.0f;
 
+    void Start()
+    {
+        // Lock the cursor to the center of the screen
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
     void Update()
     {
         movePlayer();
         rotateCameraAndPlayer();
+
+        // "Toggle cursor lock & visibility"
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (Cursor.lockState == CursorLockMode.Locked)
+            {
+                Cursor.lockState = CursorLockMode.None;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+        }
     }
 
     private void rotateCameraAndPlayer()
