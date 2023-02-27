@@ -5,6 +5,7 @@ using System.Linq;
 public class SpellReader : MonoBehaviour
 {
     public Transform cameraTransform;
+    public GameObject vertexPrefab;
     [Tooltip("Distance between Spell Board and Camera")]
     public float distanceFromCamera;
     [Tooltip("Minimum distance from first and last vertex")]
@@ -32,6 +33,7 @@ public class SpellReader : MonoBehaviour
 
     // The pitch and yaw angles of the spell currently being casted.
     private List<Vector2> currentSpell = new List<Vector2>();
+    private List<GameObject> vertexes = new List<GameObject>();
 
     private Vector3 fixedPositionFromCamera;
 
@@ -51,6 +53,7 @@ public class SpellReader : MonoBehaviour
             {
                 var spell = getSpell();
 
+                toggleCasting();
                 Debug.Log(spell);
             }
         }
@@ -86,6 +89,9 @@ public class SpellReader : MonoBehaviour
         else
         {
             currentSpell.Clear();
+            vertexes.ForEach(Destroy);
+            vertexes.Clear();
+
             objectRenderer.enabled = false;
         }
 
@@ -107,7 +113,15 @@ public class SpellReader : MonoBehaviour
             var pointOnBoard = transform.InverseTransformPoint(hitInfo.point);
             pointOnBoard = Vector3.Scale(pointOnBoard, transform.localScale);
 
+            var vertexPoint = transform.InverseTransformPoint(hitInfo.point);
+            vertexPoint.z = 0;
+
             currentSpell.Add(pointOnBoard);
+
+            var vertexObject = Instantiate(vertexPrefab, transform);
+            vertexObject.transform.localPosition = vertexPoint;
+
+            vertexes.Add(vertexObject);
         }
 
         return didHit;

@@ -801,6 +801,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraTransform: {fileID: 963194228}
+  vertexPrefab: {fileID: 5183031664316477869, guid: dc491e251da33a34d890cd70bf3a9aa7, type: 3}
   distanceFromCamera: 2
   minEndVertexDistance: 0.1
   minDegreesOfFreedom: 30
