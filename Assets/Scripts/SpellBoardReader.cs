@@ -10,7 +10,7 @@ public class SpellBoardReader : MonoBehaviour
     public float distanceFromCamera;
     [Tooltip("Minimum distance from first and last vertex")]
     public float minEndVertexDistance;
-    [Tooltip("Minimum angle difference between vertexes and `incantations`")]
+    [Tooltip("Minimum angle difference between vertexes and `invocations`")]
     public float minDegreesOfFreedom;
 
     // The spell names and their formulas
@@ -22,7 +22,7 @@ public class SpellBoardReader : MonoBehaviour
     }
     // The formula is the angle a point must be from the previous point.
     // First angle is the angle from point 0 to 1, etc.
-    private readonly List<float>[] incantations = {
+    private readonly List<float>[] invocations = {
         new List<float>{-45, 180, 45}, // Triangle
         new List<float>{0, -90, 180, 90} // Square
 
@@ -142,11 +142,11 @@ public class SpellBoardReader : MonoBehaviour
         // // Log the `currentSpell` list
         // Debug.Log(System.String.Join(", ", currentSpell.ConvertAll(v => v.ToString()).ToArray()));
 
-        var possibleSpells = incantations
+        var possibleSpells = invocations
             .AsEnumerable()
             // Map to get index
             .Select((l, i) => (l, i))
-            // Filter incantations with incorrect length
+            // Filter invocations with incorrect length
             .Where(t => t.l.Count == currentSpell.Count - 1)
             .Where(t => ValidateCurrentSpell(t.l));
 
@@ -156,13 +156,13 @@ public class SpellBoardReader : MonoBehaviour
     [System.Obsolete("This method is deprecated in favor of `getSpell`")]
     private Spells? GetSpellAlt()
     {
-        for (int i = 0; i < incantations.Length; i++)
+        for (int i = 0; i < invocations.Length; i++)
         {
-            var incantation = incantations[i];
+            var invocation = invocations[i];
 
-            // Filter incantations with incorrect length
-            if (incantation.Count != currentSpell.Count - 1) { continue; }
-            if (ValidateCurrentSpell(incantation))
+            // Filter invocations with incorrect length
+            if (invocation.Count != currentSpell.Count - 1) { continue; }
+            if (ValidateCurrentSpell(invocation))
             {
                 return (Spells)i;
             }
@@ -170,29 +170,29 @@ public class SpellBoardReader : MonoBehaviour
         return null;
     }
 
-    private bool ValidateCurrentSpell(List<float> incantation)
+    private bool ValidateCurrentSpell(List<float> invocation)
     {
         return currentSpell
             .Zip(currentSpell.Skip(1), (v1, v2) => (v: v1, vNxt: v2))
             // Map to current spell angles
             .Select(t => Vector2.SignedAngle(Vector2.right, t.vNxt - t.v))
-            .Zip(incantation, (a, e) => (actualAngle: a, expectedAngle: e))
+            .Zip(invocation, (a, e) => (actualAngle: a, expectedAngle: e))
             // Map to angle difference
             .Select(t => Mathf.DeltaAngle(t.actualAngle, t.expectedAngle))
             .All(angleDiff => Mathf.Abs(angleDiff) <= minDegreesOfFreedom);
     }
 
     [System.Obsolete("This method is deprecated in favor of `validateCurrentSpell`")]
-    private bool ValidateCurrentSpellAlt(List<float> incantation)
+    private bool ValidateCurrentSpellAlt(List<float> invocation)
     {
-        for (int i = 0; i < incantation.Count; i++)
+        for (int i = 0; i < invocation.Count; i++)
         {
             var currentSpellAngle = Vector2.SignedAngle(
                 Vector2.right,
                 currentSpell[i + 1] - currentSpell[i]
             );
 
-            var angleDiff = Mathf.DeltaAngle(currentSpellAngle, incantation[i]);
+            var angleDiff = Mathf.DeltaAngle(currentSpellAngle, invocation[i]);
 
             if (Mathf.Abs(angleDiff) > minDegreesOfFreedom)
             {
