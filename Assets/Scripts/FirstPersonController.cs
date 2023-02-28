@@ -20,8 +20,8 @@ public class FirstPersonController : MonoBehaviour
 
     void Update()
     {
-        movePlayer();
-        rotateCameraAndPlayer();
+        MovePlayer();
+        RotateCameraAndPlayer();
 
         // "Toggle cursor lock & visibility"
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -37,7 +37,7 @@ public class FirstPersonController : MonoBehaviour
         }
     }
 
-    private void rotateCameraAndPlayer()
+    private void RotateCameraAndPlayer()
     {
         verticalRotation -= Input.GetAxis("Mouse Y") * lookSpeed;
         verticalRotation = Mathf.Clamp(verticalRotation, -90.0f, 90.0f);
@@ -48,7 +48,7 @@ public class FirstPersonController : MonoBehaviour
         transform.parent.localRotation = Quaternion.Euler(0.0f, horizontalRotation, 0.0f);
     }
 
-    private void movePlayer()
+    private void MovePlayer()
     {
         float horizontalMovement = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime;
         float verticalMovement = Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime;

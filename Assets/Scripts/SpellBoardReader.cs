@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 
-public class SpellReader : MonoBehaviour
+public class SpellBoardReader : MonoBehaviour
 {
     public Transform cameraTransform;
     public GameObject vertexPrefab;
@@ -32,35 +32,35 @@ public class SpellReader : MonoBehaviour
     private bool playerCasting = false;
 
     // The pitch and yaw angles of the spell currently being casted.
-    private List<Vector2> currentSpell = new List<Vector2>();
-    private List<GameObject> vertexes = new List<GameObject>();
+    private readonly List<Vector2> currentSpell = new();
+    private readonly List<GameObject> vertexes = new();
 
     private Vector3 fixedPositionFromCamera;
 
     void Update()
     {
-        followCamera();
+        FollowCamera();
 
         if (Input.GetMouseButtonDown(1))
         {
-            toggleCasting();
+            ToggleCasting();
         }
 
         if (playerCasting && Input.GetMouseButtonDown(0))
         {
-            addToCurrentSpell();
-            if (isSpellComplete())
+            AddToCurrentSpell();
+            if (IsSpellComplete())
             {
-                var spell = getSpell();
+                var spell = GetSpell();
 
-                toggleCasting();
+                ToggleCasting();
                 Debug.Log(spell);
             }
         }
 
     }
 
-    private void followCamera()
+    private void FollowCamera()
     {
         transform.position = cameraTransform.position;
 
@@ -75,7 +75,7 @@ public class SpellReader : MonoBehaviour
         }
     }
 
-    private void toggleCasting()
+    private void ToggleCasting()
     {
         playerCasting = !playerCasting;
         Renderer objectRenderer = GetComponent<Renderer>();
@@ -97,7 +97,7 @@ public class SpellReader : MonoBehaviour
 
     }
 
-    private bool addToCurrentSpell()
+    private bool AddToCurrentSpell()
     {
         RaycastHit hitInfo;
         var didHit = Physics.Raycast(
@@ -127,7 +127,7 @@ public class SpellReader : MonoBehaviour
         return didHit;
     }
 
-    private bool isSpellComplete()
+    private bool IsSpellComplete()
     {
         // Spells casted need to have more than one vertex and
         // the first and last vertex should be relatively the same position.
@@ -137,7 +137,7 @@ public class SpellReader : MonoBehaviour
         );
     }
 
-    private Spells? getSpell()
+    private Spells? GetSpell()
     {
         // // Log the `currentSpell` list
         // Debug.Log(System.String.Join(", ", currentSpell.ConvertAll(v => v.ToString()).ToArray()));
@@ -148,13 +148,13 @@ public class SpellReader : MonoBehaviour
             .Select((l, i) => (l, i))
             // Filter incantations with incorrect length
             .Where(t => t.l.Count == currentSpell.Count - 1)
-            .Where(t => validateCurrentSpell(t.l));
+            .Where(t => ValidateCurrentSpell(t.l));
 
         return possibleSpells.Count() == 0 ? null : (Spells)possibleSpells.First().i;
     }
 
     [System.Obsolete("This method is deprecated in favor of `getSpell`")]
-    private Spells? getSpellAlt()
+    private Spells? GetSpellAlt()
     {
         for (int i = 0; i < incantations.Length; i++)
         {
@@ -162,7 +162,7 @@ public class SpellReader : MonoBehaviour
 
             // Filter incantations with incorrect length
             if (incantation.Count != currentSpell.Count - 1) { continue; }
-            if (validateCurrentSpell(incantation))
+            if (ValidateCurrentSpell(incantation))
             {
                 return (Spells)i;
             }
@@ -170,7 +170,7 @@ public class SpellReader : MonoBehaviour
         return null;
     }
 
-    private bool validateCurrentSpell(List<float> incantation)
+    private bool ValidateCurrentSpell(List<float> incantation)
     {
         return currentSpell
             .Zip(currentSpell.Skip(1), (v1, v2) => (v: v1, vNxt: v2))
@@ -183,7 +183,7 @@ public class SpellReader : MonoBehaviour
     }
 
     [System.Obsolete("This method is deprecated in favor of `validateCurrentSpell`")]
-    private bool validateCurrentSpellAlt(List<float> incantation)
+    private bool ValidateCurrentSpellAlt(List<float> incantation)
     {
         for (int i = 0; i < incantation.Count; i++)
         {
