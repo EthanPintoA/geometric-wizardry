@@ -42,7 +42,9 @@ public class SpellBoardReader : MonoBehaviour
     private readonly List<Vector2> currentSpell = new();
     private readonly List<GameObject> vertexes = new();
 
-    private Vector3 fixedPositionFromCamera;
+    // The fixed distance and direction from the main camera.
+    // It's used to keep the spell board from moving while drawing.
+    private Vector3 fixedVectorFromCamera;
 
     void Update()
     {
@@ -86,7 +88,7 @@ public class SpellBoardReader : MonoBehaviour
 
         if (playerCasting)
         {
-            transform.position += fixedPositionFromCamera;
+            transform.position += fixedVectorFromCamera;
         }
         else
         {
@@ -103,7 +105,7 @@ public class SpellBoardReader : MonoBehaviour
         // Toggled to
         if (playerCasting)
         {
-            fixedPositionFromCamera = transform.position - cameraTransform.position;
+            fixedVectorFromCamera = transform.position - cameraTransform.position;
             objectRenderer.enabled = true;
         }
         else
