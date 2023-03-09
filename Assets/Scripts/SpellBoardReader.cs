@@ -62,7 +62,8 @@ public class SpellBoardReader : MonoBehaviour
 
                 if (spell == Spells.Fireball)
                 {
-                    Instantiate(fireballPrefab, transform.position, cameraTransform.rotation);
+                    var fireballObject = Instantiate(fireballPrefab, transform.position, cameraTransform.rotation);
+                    fireballObject.transform.rotation = cameraTransform.rotation;
                 }
                 else if (spell == Spells.Barrier)
                 {
