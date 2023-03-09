@@ -5,7 +5,14 @@ using System.Linq;
 public class SpellBoardReader : MonoBehaviour
 {
     public Transform cameraTransform;
+
+    [Tooltip("The vertex point displayed on the board")]
     public GameObject vertexPrefab;
+
+    public GameObject fireballPrefab;
+    public GameObject barrierPrefab;
+    public GameObject meteorPrefab;
+
     [Tooltip("Distance between Spell Board and Camera")]
     public float distanceFromCamera;
     [Tooltip("Minimum distance from first and last vertex")]
@@ -53,8 +60,20 @@ public class SpellBoardReader : MonoBehaviour
             {
                 var spell = GetSpell();
 
+                if (spell == Spells.Fireball)
+                {
+                    Instantiate(fireballPrefab, transform.position, cameraTransform.rotation);
+                }
+                else if (spell == Spells.Barrier)
+                {
+                    Instantiate(barrierPrefab, transform.position, cameraTransform.rotation);
+                }
+                else if (spell == Spells.Meteor)
+                {
+                    Instantiate(meteorPrefab, transform.position, cameraTransform.rotation);
+                }
+
                 ToggleCasting();
-                Debug.Log(spell);
             }
         }
 

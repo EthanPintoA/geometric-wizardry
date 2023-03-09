@@ -802,6 +802,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraTransform: {fileID: 963194228}
   vertexPrefab: {fileID: 5183031664316477869, guid: dc491e251da33a34d890cd70bf3a9aa7, type: 3}
+  fireballPrefab: {fileID: 517779836741668184, guid: c3c5d70cc1daf0042bf00d3aca27230a, type: 3}
+  barrierPrefab: {fileID: 690413166965254421, guid: d89c2c301d13df24bac4887a6de72d96, type: 3}
+  meteorPrefab: {fileID: 517779836741668184, guid: 758ab504fd0fdac4a816b26b9e25c8f1, type: 3}
   distanceFromCamera: 2
   minEndVertexDistance: 0.1
   minDegreesOfFreedom: 30
