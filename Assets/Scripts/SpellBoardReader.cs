@@ -1,18 +1,19 @@
-using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class SpellBoardReader : MonoBehaviour
 {
+    [Header("Game Objects and Components")]
     public Transform cameraTransform;
-
     [Tooltip("The vertex point displayed on the board")]
     public GameObject vertexPrefab;
-
     public GameObject fireballPrefab;
     public GameObject barrierPrefab;
     public GameObject meteorPrefab;
 
+    [Header("Variables")]
     [Tooltip("Distance between Spell Board and Camera")]
     public float distanceFromCamera;
     [Tooltip("Minimum distance from first and last vertex")]
@@ -20,8 +21,12 @@ public class SpellBoardReader : MonoBehaviour
     [Tooltip("Minimum angle difference between vertexes and `invocations`")]
     public float minDegreesOfFreedom;
 
+    [HideInInspector]
+    // Check if spell board is visible
+    public bool playerCasting = false;
+
     // The spell names and their formulas
-    private enum Spells : byte
+    private enum Spell : byte
     {
         Fireball,
         Barrier,
@@ -35,9 +40,6 @@ public class SpellBoardReader : MonoBehaviour
 
     };
 
-    // Check if a spell is being casted
-    private bool playerCasting = false;
-
     // The pitch and yaw angles of the spell currently being casted.
     private readonly List<Vector2> currentSpell = new();
     private readonly List<GameObject> vertexes = new();
@@ -46,40 +48,26 @@ public class SpellBoardReader : MonoBehaviour
     // It's used to keep the spell board from moving while drawing.
     private Vector3 fixedVectorFromCamera;
 
+    private Renderer rendererComponent;
+
+    private void Awake()
+    {
+        rendererComponent = GetComponent<Renderer>();
+    }
+
     void Update()
     {
         FollowCamera();
 
-        if (Input.GetMouseButtonDown(1))
+        if (playerCasting && IsSpellComplete())
         {
-            ToggleCasting();
-        }
+            var spell = GetSpell();
 
-        if (playerCasting && Input.GetMouseButtonDown(0))
-        {
-            AddToCurrentSpell();
-            if (IsSpellComplete())
+            if (spell is not null)
             {
-                var spell = GetSpell();
-
-                if (spell == Spells.Fireball)
-                {
-                    var fireballObject = Instantiate(fireballPrefab, transform.position, cameraTransform.rotation);
-                    fireballObject.transform.rotation = cameraTransform.rotation;
-                }
-                else if (spell == Spells.Barrier)
-                {
-                    Instantiate(barrierPrefab, transform.position, cameraTransform.rotation);
-                }
-                else if (spell == Spells.Meteor)
-                {
-                    Instantiate(meteorPrefab, transform.position, cameraTransform.rotation);
-                }
-
-                ToggleCasting();
+                SummonSpell((Spell)spell);
             }
         }
-
     }
 
     private void FollowCamera()
@@ -97,30 +85,24 @@ public class SpellBoardReader : MonoBehaviour
         }
     }
 
-    private void ToggleCasting()
+    public void ToggleSpellBoard(InputAction.CallbackContext context)
     {
-        playerCasting = !playerCasting;
-        Renderer objectRenderer = GetComponent<Renderer>();
+        if (!context.started) { return; }
 
-        // Toggled to
-        if (playerCasting)
+        if (!playerCasting)
         {
-            fixedVectorFromCamera = transform.position - cameraTransform.position;
-            objectRenderer.enabled = true;
+            EnableBoard();
         }
         else
         {
-            currentSpell.Clear();
-            vertexes.ForEach(Destroy);
-            vertexes.Clear();
-
-            objectRenderer.enabled = false;
+            DisableBoard();
         }
-
     }
 
-    private bool AddToCurrentSpell()
+    public void PlaceVertex(InputAction.CallbackContext context)
     {
+        if (!context.started || !playerCasting) { return; }
+
         RaycastHit hitInfo;
         var didHit = Physics.Raycast(
             cameraTransform.position,
@@ -145,13 +127,33 @@ public class SpellBoardReader : MonoBehaviour
 
             vertexes.Add(vertexObject);
         }
-
-        return didHit;
     }
 
+    private void EnableBoard()
+    {
+        fixedVectorFromCamera = transform.position - cameraTransform.position;
+
+        playerCasting = true;
+        rendererComponent.enabled = true;
+    }
+
+    private void DisableBoard()
+    {
+        currentSpell.Clear();
+
+        vertexes.ForEach(Destroy);
+        vertexes.Clear();
+
+        playerCasting = false;
+        rendererComponent.enabled = false;
+    }
+
+    /// <returns>
+    /// If the last vertex is on the first vertex.
+    /// </returns>
     private bool IsSpellComplete()
     {
-        // Spells casted need to have more than one vertex and
+        // Spell casted need to have more than one vertex and
         // the first and last vertex should be relatively the same position.
         return (
             currentSpell.Count > 1 &&
@@ -159,11 +161,37 @@ public class SpellBoardReader : MonoBehaviour
         );
     }
 
-    private Spells? GetSpell()
+    private void SummonSpell(Spell spell)
     {
-        // // Log the `currentSpell` list
-        // Debug.Log(System.String.Join(", ", currentSpell.ConvertAll(v => v.ToString()).ToArray()));
+        if (spell == Spell.Fireball)
+        {
+            var fireballObject = Instantiate(fireballPrefab, transform.position, cameraTransform.rotation);
+            fireballObject.transform.rotation = cameraTransform.rotation;
 
+            Debug.Log("Summoned Spell: Fireball");
+        }
+        else if (spell == Spell.Barrier)
+        {
+            Instantiate(barrierPrefab, transform.position, cameraTransform.rotation);
+
+            Debug.Log("Summoned Spell: Barrier");
+        }
+        else if (spell == Spell.Meteor)
+        {
+            Instantiate(meteorPrefab, transform.position, cameraTransform.rotation);
+
+            Debug.Log("Summoned Spell: Meteor");
+        }
+        else
+        {
+            Debug.LogError($"Spell {spell} doesn't have an instantiation");
+        }
+
+        DisableBoard();
+    }
+
+    private Spell? GetSpell()
+    {
         var possibleSpells = invocations
             .AsEnumerable()
             // Map to get index
@@ -172,24 +200,7 @@ public class SpellBoardReader : MonoBehaviour
             .Where(t => t.l.Count == currentSpell.Count - 1)
             .Where(t => ValidateCurrentSpell(t.l));
 
-        return possibleSpells.Count() == 0 ? null : (Spells)possibleSpells.First().i;
-    }
-
-    [System.Obsolete("This method is deprecated in favor of `getSpell`")]
-    private Spells? GetSpellAlt()
-    {
-        for (int i = 0; i < invocations.Length; i++)
-        {
-            var invocation = invocations[i];
-
-            // Filter invocations with incorrect length
-            if (invocation.Count != currentSpell.Count - 1) { continue; }
-            if (ValidateCurrentSpell(invocation))
-            {
-                return (Spells)i;
-            }
-        }
-        return null;
+        return possibleSpells.Count() == 0 ? null : (Spell)possibleSpells.First().i;
     }
 
     private bool ValidateCurrentSpell(List<float> invocation)
@@ -202,6 +213,23 @@ public class SpellBoardReader : MonoBehaviour
             // Map to angle difference
             .Select(t => Mathf.DeltaAngle(t.actualAngle, t.expectedAngle))
             .All(angleDiff => Mathf.Abs(angleDiff) <= minDegreesOfFreedom);
+    }
+
+    [System.Obsolete("This method is deprecated in favor of `getSpell`")]
+    private Spell? GetSpellAlt()
+    {
+        for (int i = 0; i < invocations.Length; i++)
+        {
+            var invocation = invocations[i];
+
+            // Filter invocations with incorrect length
+            if (invocation.Count != currentSpell.Count - 1) { continue; }
+            if (ValidateCurrentSpell(invocation))
+            {
+                return (Spell)i;
+            }
+        }
+        return null;
     }
 
     [System.Obsolete("This method is deprecated in favor of `validateCurrentSpell`")]

@@ -1,0 +1,54 @@
+{
+    "name": "SpellBoardInput",
+    "maps": [
+        {
+            "name": "Gameplay",
+            "id": "db007a97-a834-47b9-8e20-d98505fc771e",
+            "actions": [
+                {
+                    "name": "Toggle Spell Board",
+                    "type": "Button",
+                    "id": "b19fd7e5-314b-4ded-96d0-c6b88ae099d3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Place Vertex",
+                    "type": "Button",
+                    "id": "be9c52f9-c586-4bf3-b1c6-04b25a71dfd6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "e3647fd3-5d09-4a68-aee6-2bb90884a6c4",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Toggle Spell Board",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cf3be32c-943b-481c-93d8-98ab2148f523",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Place Vertex",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
