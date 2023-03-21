@@ -719,6 +719,10 @@ PrefabInstance:
       propertyPath: cameraTransform
       value: 
       objectReference: {fileID: 963194228}
+    - target: {fileID: 1139543688195495498, guid: c3b81550bc913184bae5a95be1ef339c, type: 3}
+      propertyPath: playerCameraTransform
+      value: 
+      objectReference: {fileID: 963194228}
     - target: {fileID: 1139543688195495501, guid: c3b81550bc913184bae5a95be1ef339c, type: 3}
       propertyPath: m_Name
       value: Spell Board
@@ -767,6 +771,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8183868648344790437, guid: c3b81550bc913184bae5a95be1ef339c, type: 3}
+      propertyPath: playerCameraTransform
+      value: 
+      objectReference: {fileID: 963194228}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3b81550bc913184bae5a95be1ef339c, type: 3}
 --- !u!1001 &7315266056986242866

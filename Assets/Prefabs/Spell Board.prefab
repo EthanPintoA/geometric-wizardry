@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1139543688195495496}
   - component: {fileID: 1139543688195495503}
   - component: {fileID: 1139543688195495499}
+  - component: {fileID: 8183868648344790437}
   - component: {fileID: 1139543688195495498}
   m_Layer: 6
   m_Name: Spell Board
@@ -127,8 +128,8 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1139543688195495498}
-        m_TargetAssemblyTypeName: SpellBoardReader, Assembly-CSharp
+      - m_Target: {fileID: 8183868648344790437}
+        m_TargetAssemblyTypeName: SpellBoard, Assembly-CSharp
         m_MethodName: ToggleSpellBoard
         m_Mode: 0
         m_Arguments:
@@ -162,6 +163,20 @@ MonoBehaviour:
   m_DefaultActionMap: Gameplay
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &8183868648344790437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1139543688195495501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a56460add0d827e468627537c8c9b4d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCameraTransform: {fileID: 0}
+  distanceFromCamera: 2
 --- !u!114 &1139543688195495498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,12 +189,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd403a64ef4eba24cbfc7bddf2019742, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraTransform: {fileID: 0}
+  playerCameraTransform: {fileID: 0}
   vertexPrefab: {fileID: 5183031664316477869, guid: dc491e251da33a34d890cd70bf3a9aa7, type: 3}
   fireballPrefab: {fileID: 517779836741668184, guid: c3c5d70cc1daf0042bf00d3aca27230a, type: 3}
   barrierPrefab: {fileID: 690413166965254421, guid: d89c2c301d13df24bac4887a6de72d96, type: 3}
   meteorPrefab: {fileID: 517779836741668184, guid: 758ab504fd0fdac4a816b26b9e25c8f1, type: 3}
-  distanceFromCamera: 2
   minEndVertexDistance: 0.1
   minDegreesOfFreedom: 30
-  playerCasting: 0

@@ -6,24 +6,20 @@ using UnityEngine.InputSystem;
 public class SpellBoardReader : MonoBehaviour
 {
     [Header("Game Objects and Components")]
-    public Transform cameraTransform;
+    public Transform playerCameraTransform;
+
     [Tooltip("The vertex point displayed on the board")]
     public GameObject vertexPrefab;
+
     public GameObject fireballPrefab;
     public GameObject barrierPrefab;
     public GameObject meteorPrefab;
 
     [Header("Variables")]
-    [Tooltip("Distance between Spell Board and Camera")]
-    public float distanceFromCamera;
     [Tooltip("Minimum distance from first and last vertex")]
     public float minEndVertexDistance;
     [Tooltip("Minimum angle difference between vertexes and `invocations`")]
     public float minDegreesOfFreedom;
-
-    [HideInInspector]
-    // Check if spell board is visible
-    public bool playerCasting = false;
 
     // The spell names and their formulas
     private enum Spell : byte
@@ -44,10 +40,6 @@ public class SpellBoardReader : MonoBehaviour
     private readonly List<Vector2> currentSpell = new();
     private readonly List<GameObject> vertexes = new();
 
-    // The fixed distance and direction from the main camera.
-    // It's used to keep the spell board from moving while drawing.
-    private Vector3 fixedVectorFromCamera;
-
     private Renderer rendererComponent;
 
     private void Awake()
@@ -57,95 +49,53 @@ public class SpellBoardReader : MonoBehaviour
 
     void Update()
     {
-        FollowCamera();
-
-        if (playerCasting && IsSpellComplete())
+        if (rendererComponent.enabled && IsSpellComplete())
         {
             var spell = GetSpell();
 
             if (spell is not null)
             {
                 SummonSpell((Spell)spell);
+
+                Clear();
+                rendererComponent.enabled = false;
             }
-        }
-    }
-
-    private void FollowCamera()
-    {
-        transform.position = cameraTransform.position;
-
-        if (playerCasting)
-        {
-            transform.position += fixedVectorFromCamera;
-        }
-        else
-        {
-            transform.position += cameraTransform.forward * distanceFromCamera;
-            transform.rotation = cameraTransform.rotation;
-        }
-    }
-
-    public void ToggleSpellBoard(InputAction.CallbackContext context)
-    {
-        if (!context.started) { return; }
-
-        if (!playerCasting)
-        {
-            EnableBoard();
-        }
-        else
-        {
-            DisableBoard();
         }
     }
 
     public void PlaceVertex(InputAction.CallbackContext context)
     {
-        if (!context.started || !playerCasting) { return; }
+        if (!context.started || !rendererComponent.enabled) { return; }
 
-        RaycastHit hitInfo;
         var didHit = Physics.Raycast(
-            cameraTransform.position,
-            cameraTransform.forward,
-            out hitInfo,
+            playerCameraTransform.position,
+            playerCameraTransform.forward,
+            out RaycastHit hitInfo,
             Mathf.Infinity,
             1 << 6
         );
 
-        if (didHit)
-        {
-            var pointOnBoard = transform.InverseTransformPoint(hitInfo.point);
-            pointOnBoard = Vector3.Scale(pointOnBoard, transform.localScale);
+        if (!didHit) { return; }
 
-            var vertexPoint = transform.InverseTransformPoint(hitInfo.point);
-            vertexPoint.z = 0;
+        var pointOnBoard = transform.InverseTransformPoint(hitInfo.point);
+        pointOnBoard.Scale(transform.localScale);
+        currentSpell.Add(pointOnBoard);
 
-            currentSpell.Add(pointOnBoard);
+        var vertexPoint = transform.InverseTransformPoint(hitInfo.point);
+        vertexPoint.z = 0;
 
-            var vertexObject = Instantiate(vertexPrefab, transform);
-            vertexObject.transform.localPosition = vertexPoint;
+        var vertexObject = Instantiate(vertexPrefab, transform);
+        vertexObject.transform.localPosition = vertexPoint;
 
-            vertexes.Add(vertexObject);
-        }
+        vertexes.Add(vertexObject);
     }
 
-    private void EnableBoard()
-    {
-        fixedVectorFromCamera = transform.position - cameraTransform.position;
-
-        playerCasting = true;
-        rendererComponent.enabled = true;
-    }
-
-    private void DisableBoard()
+    public void Clear()
     {
         currentSpell.Clear();
 
         vertexes.ForEach(Destroy);
         vertexes.Clear();
-
-        playerCasting = false;
-        rendererComponent.enabled = false;
     }
 
     /// <returns>
@@ -165,20 +115,20 @@ public class SpellBoardReader : MonoBehaviour
     {
         if (spell == Spell.Fireball)
         {
-            var fireballObject = Instantiate(fireballPrefab, transform.position, cameraTransform.rotation);
-            fireballObject.transform.rotation = cameraTransform.rotation;
+            var fireballObject = Instantiate(fireballPrefab, transform.position, playerCameraTransform.rotation);
+            fireballObject.transform.rotation = playerCameraTransform.rotation;
 
             Debug.Log("Summoned Spell: Fireball");
         }
         else if (spell == Spell.Barrier)
         {
-            Instantiate(barrierPrefab, transform.position, cameraTransform.rotation);
+            Instantiate(barrierPrefab, transform.position, playerCameraTransform.rotation);
 
             Debug.Log("Summoned Spell: Barrier");
         }
         else if (spell == Spell.Meteor)
         {
-            Instantiate(meteorPrefab, transform.position, cameraTransform.rotation);
+            Instantiate(meteorPrefab, transform.position, playerCameraTransform.rotation);
 
             Debug.Log("Summoned Spell: Meteor");
         }
@@ -186,8 +136,6 @@ public class SpellBoardReader : MonoBehaviour
         {
             Debug.LogError($"Spell {spell} doesn't have an instantiation");
         }
-
-        DisableBoard();
     }
 
     private Spell? GetSpell()
