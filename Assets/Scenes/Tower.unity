@@ -362,7 +362,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3031397984115991615, guid: 96e06197fc849f34b85603986fb4f487, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3031397984149045470, guid: 96e06197fc849f34b85603986fb4f487, type: 3}
       propertyPath: m_RootOrder
@@ -514,15 +514,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3031397984115991615, guid: 96e06197fc849f34b85603986fb4f487, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3031397984149045470, guid: 96e06197fc849f34b85603986fb4f487, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3031397984383041247, guid: 96e06197fc849f34b85603986fb4f487, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5518823334107766474, guid: 96e06197fc849f34b85603986fb4f487, type: 3}
       propertyPath: m_RootOrder
@@ -738,7 +738,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7388011095328622272, guid: ca862214f0c2b934ea048ed67df3a2dc, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7388011095328622272, guid: ca862214f0c2b934ea048ed67df3a2dc, type: 3}
       propertyPath: m_LocalScale.x
@@ -1074,7 +1074,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7388011095328622272, guid: ca862214f0c2b934ea048ed67df3a2dc, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7388011095328622272, guid: ca862214f0c2b934ea048ed67df3a2dc, type: 3}
       propertyPath: m_LocalScale.x
@@ -1318,7 +1318,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 5dee1a97e39808442bb54dedb11a6d89, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
