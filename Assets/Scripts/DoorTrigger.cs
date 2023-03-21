@@ -7,6 +7,8 @@ public class DoorTrigger : MonoBehaviour
 
     public GameObject door;
 
+    public string animationStateName;
+
     private Animator doorAnimation;
 
     // Start is called before the first frame update
@@ -19,6 +21,6 @@ public class DoorTrigger : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Destroy(gameObject);
-        doorAnimation.Play("Base Layer.Door Animation");
+        doorAnimation.Play(animationStateName);
     }
 }

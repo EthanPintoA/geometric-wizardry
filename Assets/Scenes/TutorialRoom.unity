@@ -508,6 +508,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   door: {fileID: 2103207502}
+  animationStateName: Base Layer.Door Animation
 --- !u!1 &580103418
 GameObject:
   m_ObjectHideFlags: 0
