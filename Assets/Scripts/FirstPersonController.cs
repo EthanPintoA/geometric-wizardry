@@ -97,7 +97,6 @@ public class FirstPersonController : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext context)
     {
-        // if jump button isn't pressed or object isn't grounded
         if (!context.started || !characterController.isGrounded) { return; }
 
         localMoveDirection.y += jumpStrenth;
