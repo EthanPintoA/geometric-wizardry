@@ -38,9 +38,10 @@ public class ElevatorDoorCloseTrigger : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        var delta = Vector3.Angle(transform.forward, player.transform.position - transform.position);
+        var dot_product = Vector3.Dot(transform.forward, player.transform.position - transform.position);
 
-        if (delta >= 90) { return; }
+        // Positive dot, greater than 0, product indicates player is past the door.
+        if (dot_product <= 0) { return; }
 
         GetComponent<Collider>().isTrigger = false;
         isPlayerInside = true;
