@@ -26,7 +26,7 @@ public class FirstPersonController : MonoBehaviour
     public bool canMove = true;
 
     private Vector3 localMoveDirection = Vector3.zero;
-    private Vector2 localRotation = Vector2.zero;
+    private Vector2 localRotation;
 
     private CharacterController characterController;
 
@@ -39,6 +39,10 @@ public class FirstPersonController : MonoBehaviour
     {
         // Lock the cursor to the center of the screen
         Cursor.lockState = CursorLockMode.Locked;
+
+        var eulerAngles = transform.localRotation.eulerAngles;
+
+        localRotation = new Vector2(eulerAngles.y, eulerAngles.x);
     }
 
     private void Update()
