@@ -46,6 +46,7 @@ public class SpellBoardReader : MonoBehaviour
 
     // Mana related stuff
     private float mana = 1.0f;
+    private readonly float manaRegenPerSec = 0.05f;
     private float manaBarMaxWidth;
     private float manaBarLeftPosX;
     private readonly float fireballManaCost = 0.5f;
@@ -78,6 +79,10 @@ public class SpellBoardReader : MonoBehaviour
                 rendererComponent.enabled = false;
             }
         }
+
+        mana += manaRegenPerSec * Time.deltaTime;
+        mana = Mathf.Clamp(mana, 0, 1);
+        RescaleManaBar();
     }
 
     public void PlaceVertex(InputAction.CallbackContext context)
