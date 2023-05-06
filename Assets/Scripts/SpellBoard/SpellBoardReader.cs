@@ -15,6 +15,8 @@ public class SpellBoardReader : MonoBehaviour
     public GameObject barrierPrefab;
     public GameObject meteorPrefab;
 
+    public RectTransform manaBar;
+
     [Header("Variables")]
     [Tooltip("Minimum distance from first and last vertex")]
     public float minEndVertexDistance;
@@ -42,9 +44,21 @@ public class SpellBoardReader : MonoBehaviour
 
     private Renderer rendererComponent;
 
-    private void Awake()
+    // Mana related stuff
+    private float mana = 1.0f;
+    private float manaBarMaxWidth;
+    private float manaBarLeftPosX;
+    private readonly float fireballManaCost = 0.5f;
+    private readonly float meteorManaCost = 0.80f;
+    private readonly float barrierManaCost = 0.65f;
+
+
+    private void Start()
     {
         rendererComponent = GetComponent<Renderer>();
+
+        manaBarMaxWidth = manaBar.sizeDelta.x;
+        manaBarLeftPosX = manaBar.localPosition.x - (manaBar.rect.width / 2.0f);
     }
 
     void Update()
@@ -55,7 +69,10 @@ public class SpellBoardReader : MonoBehaviour
 
             if (spell is not null)
             {
-                SummonSpell((Spell)spell);
+                if (IsEnoughManaForSpell((Spell)spell))
+                {
+                    SummonSpell((Spell)spell);
+                }
 
                 Clear();
                 rendererComponent.enabled = false;
@@ -118,11 +135,15 @@ public class SpellBoardReader : MonoBehaviour
             var fireballObject = Instantiate(fireballPrefab, transform.position, playerCameraTransform.rotation);
             fireballObject.transform.rotation = playerCameraTransform.rotation;
 
+            mana -= fireballManaCost;
+
             Debug.Log("Summoned Spell: Fireball");
         }
         else if (spell == Spell.Barrier)
         {
             Instantiate(barrierPrefab, transform.position, playerCameraTransform.rotation);
+
+            mana -= barrierManaCost;
 
             Debug.Log("Summoned Spell: Barrier");
         }
@@ -130,12 +151,25 @@ public class SpellBoardReader : MonoBehaviour
         {
             Instantiate(meteorPrefab, transform.position, playerCameraTransform.rotation);
 
+            mana -= meteorManaCost;
+
             Debug.Log("Summoned Spell: Meteor");
         }
         else
         {
             Debug.LogError($"Spell {spell} doesn't have an instantiation");
         }
+
+        RescaleManaBar();
+    }
+
+    private void RescaleManaBar()
+    {
+        manaBar.sizeDelta = new Vector2(manaBarMaxWidth * mana, manaBar.sizeDelta.y);
+
+        var newManaBarLocalPos = manaBar.localPosition;
+        newManaBarLocalPos.x = manaBarLeftPosX + (manaBar.sizeDelta.x / 2.0f);
+        manaBar.localPosition = newManaBarLocalPos;
     }
 
     private Spell? GetSpell()
@@ -149,6 +183,27 @@ public class SpellBoardReader : MonoBehaviour
             .Where(t => ValidateCurrentSpell(t.l));
 
         return possibleSpells.Count() == 0 ? null : (Spell)possibleSpells.First().i;
+    }
+
+    private bool IsEnoughManaForSpell(Spell spell)
+    {
+        if (spell == Spell.Fireball)
+        {
+            return mana >= fireballManaCost;
+        }
+        else if (spell == Spell.Barrier)
+        {
+            return mana >= barrierManaCost;
+        }
+        else if (spell == Spell.Meteor)
+        {
+            return mana >= meteorManaCost;
+        }
+        else
+        {
+            Debug.LogError($"Spell {spell} doesn't have an mana cost");
+            return false;
+        }
     }
 
     private bool ValidateCurrentSpell(List<float> invocation)
