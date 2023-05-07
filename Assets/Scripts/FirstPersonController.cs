@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(CharacterController))]
 
@@ -22,6 +23,8 @@ public class FirstPersonController : MonoBehaviour
     [Header("Game Objects")]
     public Camera playerCamera;
 
+    public RectTransform healthBar;
+
     [HideInInspector]
     public bool canMove = true;
 
@@ -29,6 +32,10 @@ public class FirstPersonController : MonoBehaviour
     private Vector2 localRotation;
 
     private CharacterController characterController;
+
+    private float health = 1.0f;
+    private float healthBarMaxWidth;
+    private float healthBarLeftPosX;
 
     private void Awake()
     {
@@ -43,6 +50,9 @@ public class FirstPersonController : MonoBehaviour
         var eulerAngles = transform.localRotation.eulerAngles;
 
         localRotation = new Vector2(eulerAngles.y, eulerAngles.x);
+
+        healthBarMaxWidth = healthBar.sizeDelta.x;
+        healthBarLeftPosX = healthBar.localPosition.x - (healthBar.rect.width / 2.0f);
     }
 
     private void Update()
@@ -89,6 +99,30 @@ public class FirstPersonController : MonoBehaviour
             localMoveDirection.y -= gravity * Time.fixedDeltaTime;
             localMoveDirection.y = Mathf.Clamp(localMoveDirection.y, -maxVelocity, maxVelocity);
         }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (!collision.gameObject.CompareTag("Spell")) { return; }
+
+        health -= collision.gameObject.GetComponent<DamageDealer>().damage;
+        RescaleHealthBar();
+
+        if (health <= 0)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Debug.Log($"Loading Game Over Scene");
+            SceneManager.LoadScene("Scenes/Main Menu");
+        }
+    }
+
+    private void RescaleHealthBar()
+    {
+        healthBar.sizeDelta = new Vector2(healthBarMaxWidth * health, healthBar.sizeDelta.y);
+
+        var newManaBarLocalPos = healthBar.localPosition;
+        newManaBarLocalPos.x = healthBarLeftPosX + (healthBar.sizeDelta.x / 2.0f);
+        healthBar.localPosition = newManaBarLocalPos;
     }
 
     public void Move(InputAction.CallbackContext context)

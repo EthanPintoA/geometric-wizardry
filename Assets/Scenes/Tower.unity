@@ -1801,6 +1801,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7315266057154108703, guid: 580da0cd4a466414a8faddb5301e0d57, type: 3}
+      propertyPath: healthBar
+      value: 
+      objectReference: {fileID: 2026108597}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 580da0cd4a466414a8faddb5301e0d57, type: 3}
 --- !u!4 &1576522599 stripped
@@ -2398,6 +2402,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 7388011095328622272, guid: ca862214f0c2b934ea048ed67df3a2dc, type: 3}
   m_PrefabInstance: {fileID: 2008074406}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &2026108597 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8712101635334363889, guid: 2d25ddb7db4be9b4f8681f2cc6ffd483, type: 3}
+  m_PrefabInstance: {fileID: 1029554414}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2074692938
 PrefabInstance:
