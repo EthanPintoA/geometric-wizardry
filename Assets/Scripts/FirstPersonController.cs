@@ -112,7 +112,7 @@ public class FirstPersonController : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.None;
             Debug.Log($"Loading Game Over Scene");
-            SceneManager.LoadScene("Scenes/Main Menu");
+            SceneManager.LoadScene("Scenes/GameOver");
         }
     }
 

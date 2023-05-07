@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class GameOverTimer : MonoBehaviour
@@ -19,6 +20,12 @@ public class GameOverTimer : MonoBehaviour
     {
         timeSeconds -= Time.deltaTime;
         timerText.text = FormatSeconds((int)timeSeconds);
+
+        if (timeSeconds <= 0)
+        {
+            Debug.Log($"Loading Game Over Scene");
+            SceneManager.LoadScene("Scenes/GameOver");
+        }
     }
 
     private string FormatSeconds(int seconds)
