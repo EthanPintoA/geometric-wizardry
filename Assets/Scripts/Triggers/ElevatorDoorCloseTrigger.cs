@@ -14,7 +14,7 @@ public class ElevatorDoorCloseTrigger : MonoBehaviour
     private bool isPlayerInside = false;
 
     // Number of seconds player should be in elevator for;
-    private float timeRemaining = 5;
+    private float timeRemaining = 2.5f;
 
     private void Awake()
     {
