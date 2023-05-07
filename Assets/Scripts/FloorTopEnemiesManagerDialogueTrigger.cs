@@ -6,6 +6,7 @@ public class FloorTopEnemiesManagerDialogueTrigger : MonoBehaviour
     public GameObject dialogueBox;
     public GameObject elevatorDoorTrigger;
     public GameObject timer;
+    public GameObject enemies;
 
     private int eventIdx = 0;
 
@@ -14,7 +15,7 @@ public class FloorTopEnemiesManagerDialogueTrigger : MonoBehaviour
         // Wait for all enemies to die
         if (eventIdx == 0)
         {
-            if (transform.childCount == 0)
+            if (enemies.transform.childCount == 0)
             {
                 dialogueTrigger.SetActive(true);
                 GoToNextEvent();
