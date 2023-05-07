@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1816205219087706474}
   - component: {fileID: 1789416746092183067}
   - component: {fileID: 2057193589720529521}
+  - component: {fileID: 4037607453103566493}
   m_Layer: 0
   m_Name: Barrier
   m_TagString: Spell
@@ -110,3 +111,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c3e45e0242c02048b631f648ec5e7f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4037607453103566493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 690413166965254421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f774c6a1eaeebff4ebc6c2c6ac707548, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0

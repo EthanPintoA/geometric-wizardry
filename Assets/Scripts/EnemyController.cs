@@ -8,6 +8,8 @@ public class EnemyController : MonoBehaviour
 
     private NavMeshAgent agent;
 
+    private float health = 1.0f;
+
     // Prevent Agent from getting stuck
     private float timeStuck = 0.0f;
     private readonly float stuckTimeThreshold = 3.0f;
@@ -47,5 +49,17 @@ public class EnemyController : MonoBehaviour
         var randomRelativePos = new Vector3(Random.Range(-radius, radius), 0, Random.Range(-radius, radius));
 
         return transform.position - randomRelativePos;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (!collision.gameObject.CompareTag("Spell")) { return; }
+
+        health -= collision.gameObject.GetComponent<DamageDealer>().damage;
+
+        if (health <= 0) {
+            Destroy(gameObject);
+            enabled = false;
+        }
     }
 }
