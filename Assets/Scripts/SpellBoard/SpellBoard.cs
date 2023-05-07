@@ -28,7 +28,7 @@ public class SpellBoard : MonoBehaviour
     }
 
     // Update is called once per frame
-    private void Update()
+    private void FixedUpdate()
     {
         FollowCamera();
     }
