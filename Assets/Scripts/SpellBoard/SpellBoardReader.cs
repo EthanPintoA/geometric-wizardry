@@ -34,8 +34,8 @@ public class SpellBoardReader : MonoBehaviour
     // First angle is the angle from point 0 to 1, etc.
     private readonly List<float>[] invocations = {
         new List<float>{-45, 180, 45}, // Triangle
-        new List<float>{0, -90, 180, 90} // Square
-
+        new List<float>{0, -90, 180, 90}, // Square
+        new List<float>{-45, -135, 135, 45 } // Diamond
     };
 
     // The pitch and yaw angles of the spell currently being casted.
