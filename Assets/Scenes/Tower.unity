@@ -1579,6 +1579,7 @@ MonoBehaviour:
   dialogueTrigger: {fileID: 859265188}
   dialogueBox: {fileID: 1354779575}
   elevatorDoorTrigger: {fileID: 1646035003}
+  timer: {fileID: 906947143}
 --- !u!4 &1008036391
 Transform:
   m_ObjectHideFlags: 0

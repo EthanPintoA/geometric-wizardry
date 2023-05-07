@@ -5,6 +5,7 @@ public class FloorTopEnemiesManagerDialogueTrigger : MonoBehaviour
     public GameObject dialogueTrigger;
     public GameObject dialogueBox;
     public GameObject elevatorDoorTrigger;
+    public GameObject timer;
 
     private int eventIdx = 0;
 
@@ -33,6 +34,7 @@ public class FloorTopEnemiesManagerDialogueTrigger : MonoBehaviour
             if (!dialogueBox.activeSelf)
             {
                 elevatorDoorTrigger.SetActive(true);
+                timer.SetActive(true);
                 GoToNextEvent();
             }
         }
