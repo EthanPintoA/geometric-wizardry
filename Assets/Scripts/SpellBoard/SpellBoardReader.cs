@@ -46,7 +46,7 @@ public class SpellBoardReader : MonoBehaviour
 
     // Mana related stuff
     private float mana = 1.0f;
-    private readonly float manaRegenPerSec = 0.05f;
+    private readonly float manaRegenPerSec = 0.125f;
     private float manaBarMaxWidth;
     private float manaBarLeftPosX;
     private readonly float fireballManaCost = 0.5f;
