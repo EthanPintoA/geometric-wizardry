@@ -45,7 +45,8 @@ public class EnemyController : MonoBehaviour
 
         if (agent.remainingDistance <= agent.stoppingDistance || timeStuck > stuckTimeThreshold)
         {
-            agent.SetDestination(RandomPositionWithin2DRadius(walkRadius));
+            while(!agent.SetDestination(RandomPositionWithin2DRadius(walkRadius))) { }
+
             timeStuck = 0;
         }
 
