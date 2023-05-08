@@ -99,7 +99,7 @@ public class BossController : MonoBehaviour
     {
         if (!collision.gameObject.CompareTag("Spell")) { return; }
 
-        health -= collision.gameObject.GetComponent<DamageDealer>().damage;
+        health -= collision.gameObject.GetComponent<DamageDealer>().damage * (1.0f / 3.0f);
         Destroy(collision.gameObject);
 
         if (health <= 0)
