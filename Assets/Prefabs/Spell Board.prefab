@@ -211,5 +211,5 @@ MonoBehaviour:
   barrierPrefab: {fileID: 690413166965254421, guid: d89c2c301d13df24bac4887a6de72d96, type: 3}
   meteorPrefab: {fileID: 517779836741668184, guid: 758ab504fd0fdac4a816b26b9e25c8f1, type: 3}
   manaBar: {fileID: 0}
-  minEndVertexDistance: 0.1
+  minEndVertexDistance: 0.5
   minDegreesOfFreedom: 30
