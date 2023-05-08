@@ -107,6 +107,7 @@ public class FirstPersonController : MonoBehaviour
 
         health -= collision.gameObject.GetComponent<DamageDealer>().damage;
         RescaleHealthBar();
+        Destroy(collision.gameObject);
 
         if (health <= 0)
         {

@@ -79,6 +79,7 @@ public class EnemyController : MonoBehaviour
         if (!collision.gameObject.CompareTag("Spell")) { return; }
 
         health -= collision.gameObject.GetComponent<DamageDealer>().damage;
+        Destroy(collision.gameObject);
 
         if (health <= 0)
         {
