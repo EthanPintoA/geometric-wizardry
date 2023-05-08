@@ -113,7 +113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 8ba7ff4f4b80c374e89e07bb348c3cda, type: 3}
+  m_Actions: {fileID: -944628639613478452, guid: 53949258e9de7c34d87278be085bcdd7, type: 3}
   m_NotificationBehavior: 2
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
@@ -126,6 +126,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 06c8b7e7-fe65-4604-aa99-659ce89250f3
+    m_ActionName: Gameplay/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 49df7e89-9cf3-4103-b476-4e52ffb76613
+    m_ActionName: Gameplay/Jump[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: cc0de2da-25ec-4b3a-ba30-7e611b1b7c91
+    m_ActionName: Gameplay/Rotate[/Mouse/delta]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 2a5e4e04-4775-410d-9b1e-f6984c7c413f
+    m_ActionName: Dialogue/NextDialogue[/Keyboard/f]
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8183868648344790437}
@@ -140,7 +156,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: b19fd7e5-314b-4ded-96d0-c6b88ae099d3
+    m_ActionId: bc7ff7bd-5c25-45c2-9bdf-1996afff24e1
     m_ActionName: Gameplay/Toggle Spell Board[/Mouse/rightButton]
   - m_PersistentCalls:
       m_Calls:
@@ -156,7 +172,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: be9c52f9-c586-4bf3-b1c6-04b25a71dfd6
+    m_ActionId: 1ec4d8ae-d75c-423f-95ee-02758c943b66
     m_ActionName: Gameplay/Place Vertex[/Mouse/leftButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
@@ -194,5 +210,6 @@ MonoBehaviour:
   fireballPrefab: {fileID: 517779836741668184, guid: c3c5d70cc1daf0042bf00d3aca27230a, type: 3}
   barrierPrefab: {fileID: 690413166965254421, guid: d89c2c301d13df24bac4887a6de72d96, type: 3}
   meteorPrefab: {fileID: 517779836741668184, guid: 758ab504fd0fdac4a816b26b9e25c8f1, type: 3}
+  manaBar: {fileID: 0}
   minEndVertexDistance: 0.1
   minDegreesOfFreedom: 30
